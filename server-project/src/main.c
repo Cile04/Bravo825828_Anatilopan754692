@@ -26,29 +26,68 @@
 
 #define NO_ERROR 0
 
-void clearwinsock() {
-#if defined WIN32
-	WSACleanup();
-#endif
-}
 
 int main(int argc, char *argv[]) {
 
-	// TODO: Implement server logic
 
-#if defined WIN32
-	// Initialize Winsock
-	WSADATA wsa_data;
-	int result = WSAStartup(MAKEWORD(2,2), &wsa_data);
-	if (result != NO_ERROR) {
-		printf("Error at WSAStartup()\n");
-		return 0;
-	}
-#endif
+    //Creazione Socket
+    int my_socket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (my_socket < 0) {
+        perror("Socket creation failed.\n");
+        return -1;
+    }
 
-	int my_socket;
+    // Connessione SERVER
+    struct sockaddr_in sad;
+    
+    memset(&sad, 0, sizeof(sad)); 
+    
+    sad.sin_family = AF_INET;
+    sad.sin_addr.s_addr = inet_addr("127.0.0.1"); 
+    sad.sin_port = htons(SERVER_PORT); 
 
-	// TODO: Create socket
+    // binding al socket
+    if (bind(my_socket, (struct sockaddr*) &sad, sizeof(sad)) < 0) {
+        perror("Bind failed.\n");
+        return -1;
+    }
+
+    // Metto in ascolto il server
+    if (listen(my_socket, QUEUE_SIZE) < 0) {
+        perror("Listen failed.\n");
+        return -1;
+    }
+
+    printf("Server listening on 127.0.0.1:%d\n", SERVER_PORT);
+
+    //accetto connessione
+    struct sockaddr_in cad; // Client Address
+    int client_socket;
+    int client_len;
+
+    while (1) {
+        printf("Waiting for a client to connect...\n");
+        client_len = sizeof(cad);
+
+        client_socket = accept(my_socket, (struct sockaddr *)&cad, &client_len);
+
+        if (client_socket < 0) {
+            perror("Accept failed.\n");
+            continue; 
+        }
+
+        printf("Handling client: %s\n", inet_ntoa(cad.sin_addr));
+
+        
+        closesocket(client_socket);
+        printf("Client disconnected.\n");
+    }
+
+    closesocket(my_socket);
+    return 0;
+}
+
+// TODO: Create socket
 	// my_socket = socket(...);
 
 	// TODO: Configure server address
@@ -69,10 +108,3 @@ int main(int argc, char *argv[]) {
 	//     // Handle client communication
 	//     closesocket(client_socket);
 	// }
-
-	printf("Server terminated.\n");
-
-	closesocket(my_socket);
-	clearwinsock();
-	return 0;
-} // main end
