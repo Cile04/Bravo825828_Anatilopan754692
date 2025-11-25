@@ -31,13 +31,13 @@
 typedef struct {
     char type;        // Weather data type: 't', 'h', 'w', 'p'
     char city[64];    // City name (null-terminated string)
-} weather_response_t;
+} weather_request_t;
 
 typedef struct {
     unsigned int status;  // Response status code
     char type;            // Echo of request type
     float value;          // Weather data value
-} weather_request_t;
+} weather_response_t;
 
 // Prototipi funzioni meteo
 float get_temperature(void);
