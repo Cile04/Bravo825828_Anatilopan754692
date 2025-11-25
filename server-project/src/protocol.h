@@ -8,8 +8,11 @@
 #ifndef PROTOCOL_H_
 #define PROTOCOL_H_
 
-// Shared application parameters
+
 #define SERVER_PORT 27015  // Server port 
+
+#define SERVER_PORT 56700  // Server port (change if needed)
+
 #define BUFFER_SIZE 512    // Buffer size for messages
 #define QUEUE_SIZE 5       // Size of pending connections queue
 
@@ -22,6 +25,24 @@
 // Add here the signatures of the functions implemented by students
 
 // Strutture dati applicative (Meteo)
+
+// Parametri condivisi
+#define SERVER_PORT 56700  // REQUISITO: Porta 56700
+#define BUFFER_SIZE 512    // Dimensione Buffer
+#define QUEUE_SIZE 5       // Coda connessioni
+
+// Parametri condivisi
+#define SERVER_PORT 56700  // REQUISITO: Porta 56700
+#define BUFFER_SIZE 512    // Dimensione Buffer
+#define QUEUE_SIZE 5       // Coda connessioni
+
+// Codici di stato (Status Codes)
+#define VALID_REQ 0     // Successo
+#define INVALID_CITY 1  // Città non disponibile
+#define INVALID_REQ 2   // Richiesta non valida
+
+// Struttura Messaggio di Richiesta (Client -> Server)
+
 typedef struct {
     char type;        // 't', 'h', 'w', 'p'
     char city[64];    // Nome città
