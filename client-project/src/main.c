@@ -17,6 +17,7 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <ctype.h>
 #define closesocket close
 #endif
 
@@ -25,8 +26,29 @@
 #include "protocol.h"
 
 #define NO_ERROR 0
+#define DEFAULT_IP_SV "127.0.0.1"
+
+void clearwinsock() {
+#if defined WIN32
+	WSACleanup();
+#endif
+}
+
+void errorhandler(char *error_message) {
+	printf("%s",error_message);
+}
 
 int main(int argc, char *argv[]) {
+
+#if defined WIN32
+	// Initialize Winsock
+	WSADATA wsa_data;
+	int result = WSAStartup(MAKEWORD(2,2), &wsa_data);
+	if (result != NO_ERROR) {
+		printf("Error at WSAStartup()\n");
+		return 0;
+	}
+#endif
 
 
     // Creazione socket
@@ -41,7 +63,7 @@ int main(int argc, char *argv[]) {
     memset(&sad, 0, sizeof(sad));
     
     sad.sin_family = AF_INET;
-    sad.sin_addr.s_addr = inet_addr("127.0.0.1"); // IP del server (localhost)
+    sad.sin_addr.s_addr = inet_addr(DEFAULT_IP_SV); // IP del server (localhost)
     sad.sin_port = htons(SERVER_PORT);            // Porta del server (27015)
 
     // Connessione al server
@@ -59,6 +81,7 @@ int main(int argc, char *argv[]) {
     closesocket(c_socket);;
     printf("Client terminated.\n");
 
+	clearwinsock();
     return 0;
 	
 

@@ -16,6 +16,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
+#include <ctype.h>
 #include <netdb.h>
 #define closesocket close
 #endif
@@ -25,9 +26,42 @@
 #include "protocol.h"
 
 #define NO_ERROR 0
+#define DEFAULT_IP_SV "127.0.0.1"
+
+void clearwinsock() {
+#if defined WIN32
+	WSACleanup();
+#endif
+}
+
+float get_temperature(void) { // Range: -10.0 to 40.0 gradi C
+    return (-10.0) + ((float) rand() / (float) RAND_MAX * (50.0));
+}
+
+float get_humidity(void) { // Range: 20.0 to 100.0 %
+    return (20.0) + ((float) rand() / (float) RAND_MAX * (80.0));
+}
+
+float get_wind(void) { // Range: 0.0 to 100.0 km/h
+    return (float) rand() / (float) RAND_MAX * (100.0);
+}
+
+float get_pressure(void) { // Range: 950.0 to 1050.0 hPa
+    return (950.0) + ((float) rand() / RAND_MAX * (100.0));
+}
 
 
 int main(int argc, char *argv[]) {
+
+#if defined WIN32
+	// Initialize Winsock
+	WSADATA wsa_data;
+	int result = WSAStartup(MAKEWORD(2,2), &wsa_data);
+	if (result != NO_ERROR) {
+		printf("Error at WSAStartup()\n");
+		return 0;
+	}
+#endif
 
 
     //Creazione Socket
@@ -43,7 +77,7 @@ int main(int argc, char *argv[]) {
     memset(&sad, 0, sizeof(sad)); 
     
     sad.sin_family = AF_INET;
-    sad.sin_addr.s_addr = inet_addr("127.0.0.1"); 
+    sad.sin_addr.s_addr = inet_addr(DEFAULT_IP_SV); 
     sad.sin_port = htons(SERVER_PORT); 
 
     // binding al socket

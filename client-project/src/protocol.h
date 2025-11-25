@@ -9,7 +9,7 @@
 #define PROTOCOL_H_
 
 // Shared application parameters
-#define SERVER_PORT 27015  // Server port (change if needed)
+#define SERVER_PORT 27015  // Server port 
 #define BUFFER_SIZE 512    // Buffer size for messages
 
 // Function prototypes
@@ -26,12 +26,6 @@ typedef struct {
     char type;            // Echo del tipo richiesta
     float value;          // Valore meteo
 } weather_response_t;
-
-// Prototipi funzioni meteo (se servono al server)
-float get_temperature(void);    // Range: -10.0 to 40.0 °C
-float get_humidity(void);       // Range: 20.0 to 100.0 %
-float get_wind(void);           // Range: 0.0 to 100.0 km/h
-float get_pressure(void);       // Range: 950.0 to 1050.0 hPa
 
 /*
  * Example function to implement:

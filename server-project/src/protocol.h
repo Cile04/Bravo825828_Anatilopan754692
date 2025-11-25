@@ -9,9 +9,14 @@
 #define PROTOCOL_H_
 
 // Shared application parameters
-#define SERVER_PORT 27015  // Server port (change if needed)
+#define SERVER_PORT 27015  // Server port 
 #define BUFFER_SIZE 512    // Buffer size for messages
 #define QUEUE_SIZE 5       // Size of pending connections queue
+
+// CODICI VERIFICANE LA VALIDITà DELLE RICHIESTE
+#define INVALID_CITY 1
+#define INVALID_REQ 2
+#define VALID_REQ 0
 
 // Function prototypes
 // Add here the signatures of the functions implemented by students
