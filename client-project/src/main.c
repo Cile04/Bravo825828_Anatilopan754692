@@ -40,6 +40,7 @@ void errorhandler(char *error_message)
 {
     printf("%s", error_message);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 }
 >>>>>>> Stashed changes
 
@@ -68,6 +69,97 @@ int main(int argc, char *argv[])
 {
 =======
 }
+=======
+}
+
+char *risposta_meteo(char *citta, char tipo, float value)
+{
+switch (tipo) {
+        case 't':
+            printf("%s: Temperatura = %.1f°C\n", citta, valore);
+            break;
+        case 'h':
+            printf("%s: Umidità = %.1f%%\n", citta, valore);
+            break;
+        case 'w':
+            printf("%s: Vento = %.1f km/h\n", citta, valore);
+            break;
+        case 'p':
+            printf("%s: Pressione = %.1f hPa\n", citta, valore);
+            break;
+    }
+}
+
+int main(int argc, char *argv[])
+{
+
+    char *IP_SV[64] = DEFAULT_IP_SV;
+    int port = SERVER_PORT;
+    weather_request_t wrichiesta;
+
+    // PER CONTROLLARE CHE I PARAMETRI SIANO ESATTAMENTE 3, ALTRIMENTI, ERRORE //
+    if (argc < 3)
+    {
+        fprintf(stderr, "Il formato per l'utilizzo è: %s [-s server] [-p port] -r \"tipo città\"\n", argv[0]);
+        return -1;
+    }
+
+    int i = 1;
+    int r_trovato = 0;
+
+    // CONTROLLO SU OGNI POSSIBILE PARAMETRO MANCANTE//
+
+    while (i < argc)
+    {
+        if (strcmp(argv[i], "-s") == 0)
+        {
+            if (i + 1 >= argc)
+            {
+                fprintf(stderr, "ERRORE: NON hai inserito il valore dopo -s\n");
+                return -1;
+            }
+            snprintf(IP_SV, sizeof(IP_SV), "%s", argv[i + 1]);
+            i += 2;
+            continue;
+        }
+
+        if (strcmp(argv[i], "-p") == 0)
+        {
+            if (i + 1 >= argc)
+            {
+                fprintf(stderr, "ERRORE: NON hai inserito la porta dopo -p\n");
+                return -1;
+            }
+            port = atoi(argv[i + 1]);
+            i += 2;
+            continue;
+        }
+
+        if (strcmp(argv[i], "-r") == 0)
+        {
+            if (i + 1 >= argc)
+            {
+                fprintf(stderr, "ERRORE: NON hai inserito il parametro dopo -r \n");
+                return -1;
+            }
+            if (sscanf(argv[i + 1], "%c %39[^\n]", &wrichiesta.type, wrichiesta.city) != 2)
+            {
+                fprintf(stderr, "ERRORE: Il formato è sbagliato, ricorda che il formato è: \"type\"\n");
+                return -1;
+            }
+            r_trovato = 1;
+            i += 2;
+            continue;
+        }
+        fprintf(stderr, "Il parametro che hai inserito è sconosciuto: %s\n", argv[i]);
+        return -1;
+    }
+    if (!r_trovato)
+    {
+        fprintf(stderr, "ERRORE: Il parametro -r è OBBLIGATORIO!\n");
+        return -1;
+    }
+>>>>>>> Stashed changes
 
 char *risposta_meteo(char tipo, float value)
 {
@@ -241,6 +333,9 @@ int main(int argc, char *argv[])
     }
 #endif
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -260,8 +355,13 @@ int main(int argc, char *argv[])
     sad.sin_family = AF_INET;
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     sad.sin_addr.s_addr = inet_addr("127.0.0.1"); // IP del server (localhost)
     sad.sin_port = htons(SERVER_PORT);            // Porta del server (27015)
+=======
+    sad.sin_addr.s_addr = inet_addr(IP_SV); // IP del server (localhost)
+    sad.sin_port = htons(port);             // Porta del server (27015)
+>>>>>>> Stashed changes
 =======
     sad.sin_addr.s_addr = inet_addr(IP_SV); // IP del server (localhost)
     sad.sin_port = htons(port);             // Porta del server (27015)
@@ -321,7 +421,11 @@ int main(int argc, char *argv[])
         printf("Ricevuto risultato dal server con IP %s la richiesta NON è VALIDA", IP_SV);
         break;
     case 3:
+<<<<<<< Updated upstream
         printf("Ricevuto risultato dal server con IP %s per %s: %s \n", IP_SV, wrichiesta.city, risposta_meteo(risposta.type, risposta.value));
+=======
+        printf("Ricevuto risultato dal server con IP %s per %s: %s", IP_SV, wrichiesta.city, risposta_meteo(risposta.type, risposta.value));
+>>>>>>> Stashed changes
         break;
     defalut:
         printf("Risposta del server non comprensibile (STATUS: %d)\n", risposta.status);
