@@ -9,7 +9,6 @@
 
 #ifndef PROTOCOL_H_
 #define PROTOCOL_H_
-e
 #if defined WIN32
     #include <winsock.h>
 #else
