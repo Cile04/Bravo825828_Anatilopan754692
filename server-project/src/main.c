@@ -235,7 +235,7 @@ int main(int argc, char *argv[])
     }
 
     srand((unsigned int)time(NULL));
-    printf("Server avviato sulla porta %d\n", SERVER_PORT);
+    printf("Server avviato sulla porta %d\n", port);
 
     // accetto connessione
     struct sockaddr_in cad; // Client Address

@@ -179,7 +179,7 @@ int main(int argc, char *argv[])
 
     sad.sin_family = AF_INET;
     sad.sin_addr.s_addr = inet_addr(IP_SV); // IP del server (localhost)
-    sad.sin_port = htons(port);             // Porta del server (27015)
+    sad.sin_port = htons(port);             // Porta del server (56700)
 
     // Connessione al server
 
